@@ -1,0 +1,96 @@
+# # still wo
+# def get_AL_data():
+#     state_df = pd.DataFrame()
+#     df[['admin_rate', 'avg_sat', 'midpoint_act', 'state']].groupby(by='state').mean()
+    
+#     tn_admin = state_df.loc['TN', 'admin_rate']
+#     fl_admin = state_df.loc['FL', 'admin_rate']
+#     ga_admin = state_df.loc['GA', 'admin_rate']
+#     ms_admin = state_df.loc['MS', 'admin_rate']
+    
+#     tn_sat = state_df.loc['TN', 'avg_sat']
+#     fl_sat = state_df.loc['FL', 'avg_sat']
+#     ga_sat = state_df.loc['GA', 'avg_sat']
+#     ms_sat = state_df.loc['MS', 'avg_sat']
+
+#     tn_act = state_df.loc['TN', 'midpoint_act']
+#     fl_act = state_df.loc['FL', 'midpoint_act']
+#     ga_act = state_df.loc['GA', 'midpoint_act']
+#     ms_act = state_df.loc['MS', 'midpoint_act']
+    
+#     admin = np.mean((tn_admin, fl_admin, ga_admin, ms_admin))
+#     sat = np.mean((tn_sat, fl_sat, ga_sat, ms_sat))
+#     act = np.mean((tn_act, fl_act, ga_act, ms_act))
+
+#     return admin, sat, act
+
+# def get_AZ_data():
+#     state_df = pd.DataFrame()
+#     df[['avg_sat', 'midpoint_act', 'state']].groupby(by='state').mean()
+    
+#     ut_sat = state_df.loc['UT', 'avg_sat']
+#     nv_sat = state_df.loc['NV', 'avg_sat']
+#     nm_sat = state_df.loc['NM', 'avg_sat']
+
+#     ut_act = state_df.loc['UT', 'midpoint_act']
+#     nv_act = state_df.loc['NV', 'midpoint_act']
+#     nm_act = state_df.loc['NM', 'midpoint_act']
+    
+#     sat = np.mean((ut_sat, nv_sat, nm_sat))
+#     act = np.mean((ut_act, nv_act, nm_act))
+    
+#     return sat, act
+
+# def get_CA_data():
+#     state_df = pd.DataFrame()
+#     df[['avg_sat', 'midpoint_act', 'state']].groupby(by='state').mean()
+    
+#     or_sat = state_df.loc['OR', 'avg_sat']
+#     nv_sat = state_df.loc['NV', 'avg_sat']
+
+#     or_act = state_df.loc['OR', 'midpoint_act']
+#     nv_act = state_df.loc['NV', 'midpoint_act']
+    
+#     sat = np.mean((or_sat, nv_sat))
+#     act = np.mean((or_act, nv_act))
+    
+#     return sat, act
+
+# def temp():
+#     if row['state'] == 'AL':
+#             admin, sat, act = get_AL_data()
+#             df.at[index, 'admin_rate'] = admin
+#             df.at[index, 'avg_sat'] = sat
+#             df.at[index, 'midpoint_act'] = act
+#     elif row['state'] == 'AZ':
+#         sat, act = get_AZ_data()
+#         df.at[index, 'avg_sat'] = sat
+#         df.at[index, 'midpoint_act'] = act
+#     elif row['state'] == 'CA':
+#         sat, act = get_CA_data()
+#         df.at[index, 'avg_sat'] = sat
+#         df.at[index, 'midpoint_act'] = act
+
+
+
+
+# ------- P-VALUE 
+from scipy.stats import f
+
+# Step 1: Calculate variances
+var1 = drop_df["midpoint_act"].var(ddof=1)  # Variance of group1
+var2 = drop_df["admin_rate"].var(ddof=1)  # Variance of group2
+
+# Step 2: Calculate degrees of freedom
+dfn = len(drop_df["midpoint_act"]) - 1  # Degrees of freedom for group1
+dfd = len(drop_df["admin_rate"]) - 1  # Degrees of freedom for group2
+
+# Step 3: Compute the F-statistic
+F_statistic = var1 / var2 if var1 > var2 else var2 / var1
+
+# Step 4: Calculate the p-value
+p_value = f.sf(F_statistic, dfn, dfd)
+
+# Results
+print(f"F-statistic: {F_statistic}")
+print(f"P-value: {p_value}")
